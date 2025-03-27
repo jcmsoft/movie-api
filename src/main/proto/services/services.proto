@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package services;
+
+option go_package = "services";
+
+service ClientProtoService {
+  rpc GetClientById (IdRequest) returns (ClientResponse);
+  rpc IsClientExist (EmailRequest) returns (IsExistResponse);
+}
+
+service MovieProtoService {
+  rpc GetMovieById (IdRequest) returns (MovieResponse);
+  rpc IsMovieExist (IdRequest) returns (IsExistResponse);
+}
+
+message IdRequest {
+  int32 id = 1;
+}
+
+message EmailRequest {
+  string email = 1;
+}
+
+message ClientResponse {
+  int32  id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string email = 4;
+}
+
+message MovieResponse {
+  int32  id = 1;
+  string title = 2;
+  float  price = 3;
+}
+
+message IsExistResponse {
+  bool exist = 1;
+}

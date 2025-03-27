@@ -5,13 +5,13 @@ import com.movie.app.movie_api.services.api.ClientService
 import org.springframework.stereotype.Service
 
 @Service
-class ClientServiceImpl: ClientService {
+class ClientServiceImpl (private val protoService: ClientProtoService) : ClientService {
     override fun addClient(clientDTO: ClientDTO): ClientDTO {
         return clientDTO
     }
 
     override fun getClientById(id: Int): ClientDTO {
-        return ClientDTO(id, "Client $id", "Test", "test@test.com")
+        return protoService.getClientById(id) ?: throw RuntimeException("Client with id $id not found")
     }
 
     override fun getAllClients(): List<ClientDTO> {
