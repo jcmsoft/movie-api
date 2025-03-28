@@ -56,10 +56,20 @@ class ClientResource (
         }
     }
 
-    @PostMapping("/{id}/favorite-movie")
+    @PostMapping("/{id}/add-favorite-movie")
     fun addFavoriteMovie(@PathVariable id: Int, @RequestBody movieId: Int): ResponseEntity<Unit> {
         return try {
             clientService.addFavoriteMovie(id, movieId)
+            ResponseEntity(HttpStatus.OK)
+        }catch (ex: Exception) {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @PostMapping("/{id}/remove-favorite-movie")
+    fun removeFavoriteMovie(@PathVariable id: Int, @RequestBody movieId: Int): ResponseEntity<Unit> {
+        return try {
+            clientService.removeFavoriteMovie(id, movieId)
             ResponseEntity(HttpStatus.OK)
         }catch (ex: Exception) {
             ResponseEntity.notFound().build()

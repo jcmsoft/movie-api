@@ -21,28 +21,10 @@ class MovieResource (
 
     }
 
-    @GetMapping("/movies/{id}")
-    fun getMovieById(@PathVariable id: Int): ResponseEntity<MovieDTO> {
-        return try {
-            ResponseEntity(movieService.getMovieById(id), HttpStatus.OK)
-        }catch (e: Exception) {
-            ResponseEntity.notFound().build()
-        }
-    }
-
-    @GetMapping("/movies")
-    fun getAllMovies(): ResponseEntity<List<MovieDTO>> {
-        return try {
-            ResponseEntity(movieService.getAllMovies(), HttpStatus.OK)
-        }catch (e: Exception) {
-            ResponseEntity.notFound().build()
-        }
-    }
-
     @PutMapping("/movies")
     fun updateMovie(@RequestBody movieDTO: MovieDTO): ResponseEntity<MovieDTO> {
         return try {
-            ResponseEntity(movieService.updateMovie(movieDTO.id, movieDTO), HttpStatus.OK)
+            ResponseEntity(movieService.updateMovie(movieDTO), HttpStatus.OK)
         }catch (e: Exception) {
             ResponseEntity.notFound().build()
         }
@@ -53,6 +35,33 @@ class MovieResource (
         return try {
             movieService.deleteMovie(id)
             ResponseEntity(HttpStatus.OK)
+        }catch (e: Exception) {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @GetMapping("/movies/id/{id}")
+    fun getMovieById(@PathVariable id: Int): ResponseEntity<MovieDTO> {
+        return try {
+            ResponseEntity(movieService.getMovieById(id), HttpStatus.OK)
+        }catch (e: Exception) {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @GetMapping("/movies/title/{title}")
+    fun getMovieByTitle(@PathVariable title: String): ResponseEntity<MovieDTO> {
+        return try {
+            ResponseEntity(movieService.getMovieByTitle(title), HttpStatus.OK)
+        }catch (e: Exception) {
+            ResponseEntity.notFound().build()
+        }
+    }
+
+    @GetMapping("/movies")
+    fun getAllMovies(): ResponseEntity<List<MovieDTO>> {
+        return try {
+            ResponseEntity(movieService.getAllMovies(), HttpStatus.OK)
         }catch (e: Exception) {
             ResponseEntity.notFound().build()
         }

@@ -6,12 +6,28 @@ option go_package = "services";
 
 service ClientProtoService {
   rpc GetClientById (IdRequest) returns (ClientResponse);
+  rpc GetClientByEmail (EmailRequest) returns (ClientResponse);
   rpc IsClientExist (EmailRequest) returns (IsExistResponse);
+  rpc AddClient (ClientRequest) returns (ClientResponse);
+  rpc UpdateClient (ClientRequest) returns (ClientResponse);
+  rpc DeleteClient (IdRequest) returns (StatusResponse);
+  rpc GetAllClients (EmptyRequest) returns (stream ClientResponse);
 }
 
 service MovieProtoService {
   rpc GetMovieById (IdRequest) returns (MovieResponse);
+  rpc GetMovieByTitle (TitleRequest) returns (MovieResponse);
   rpc IsMovieExist (IdRequest) returns (IsExistResponse);
+  rpc AddMovie (MovieRequest) returns (MovieResponse);
+  rpc UpdateMovie (MovieRequest) returns (MovieResponse);
+  rpc DeleteMovie (IdRequest) returns (StatusResponse);
+  rpc GetAllMovies (EmptyRequest) returns (stream MovieResponse);
+}
+
+service FavoriteMovieProtoService {
+  rpc AddClientFavoriteMovie (FavoriteMovieRequest) returns (StatusResponse);
+  rpc GetClientFavoriteMovies (IdRequest) returns (stream MovieResponse);
+  rpc RemoveClientFavoriteMovie (FavoriteMovieRequest) returns (StatusResponse);
 }
 
 message IdRequest {
@@ -20,6 +36,28 @@ message IdRequest {
 
 message EmailRequest {
   string email = 1;
+}
+
+message TitleRequest {
+  string title = 1;
+}
+
+message ClientRequest {
+  int32 id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string email = 4;
+}
+
+message FavoriteMovieRequest {
+  int32 clientId = 1;
+  int32 movieId = 2;
+}
+
+message MovieRequest {
+  int32 id = 1;
+  string title = 2;
+  float price = 3;
 }
 
 message ClientResponse {
@@ -37,4 +75,11 @@ message MovieResponse {
 
 message IsExistResponse {
   bool exist = 1;
+}
+
+message StatusResponse {
+  bool success = 1;
+}
+
+message EmptyRequest {
 }

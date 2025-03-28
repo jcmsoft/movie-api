@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class ClientServiceImpl (private val protoService: ClientProtoService) : ClientService {
     override fun addClient(clientDTO: ClientDTO): ClientDTO {
-        return clientDTO
+        return protoService.addClient(clientDTO)?: throw RuntimeException("Client not added")
     }
 
     override fun getClientById(id: Int): ClientDTO {
@@ -15,18 +15,22 @@ class ClientServiceImpl (private val protoService: ClientProtoService) : ClientS
     }
 
     override fun getAllClients(): List<ClientDTO> {
-        return (1..10).map { ClientDTO(it, "Client $it", "Last name $it", "email$it@test.com") }
+        return protoService.getAllClients()
     }
 
     override fun updateClient(clientDTO: ClientDTO): ClientDTO {
-        return clientDTO
+        return protoService.updateClient(clientDTO) ?: throw RuntimeException("Client with id ${clientDTO.id} not found")
     }
 
     override fun deleteClient(id: Int) {
-        println("Client $id deleted")
+        protoService.deleteClient(id)
     }
 
     override fun addFavoriteMovie(clientId: Int, movieId: Int) {
-        println("Movie $movieId added to favorites")
+        protoService.addFavoriteMovie(clientId, movieId)
+    }
+
+    override fun removeFavoriteMovie(clientId: Int, movieId: Int) {
+        protoService.removeFavoriteMovie(clientId, movieId)
     }
 }

@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import services.ClientProtoServiceGrpcKt.ClientProtoServiceCoroutineStub
+import services.FavoriteMovieProtoServiceGrpcKt.FavoriteMovieProtoServiceCoroutineStub
+import services.MovieProtoServiceGrpcKt.MovieProtoServiceCoroutineStub
 
 @Configuration
-class GrpcClientConfig {
+class GrpcServicesConfig {
 
     @Value("\${grpc.client.host:localhost}")
     private lateinit var host: String
@@ -20,7 +22,7 @@ class GrpcClientConfig {
     private var timeoutSeconds: Long = 10
 
     @Bean
-    fun clientChannel(): ManagedChannel {
+    fun channel(): ManagedChannel {
         return ManagedChannelBuilder.forAddress(host, port)
             .usePlaintext()
             .build()
@@ -29,6 +31,16 @@ class GrpcClientConfig {
     @Bean
     fun clientProtoServiceStub(clientChannel: ManagedChannel): ClientProtoServiceCoroutineStub {
         return ClientProtoServiceCoroutineStub(clientChannel)
+    }
+
+    @Bean
+    fun movieProtoServiceStub(clientChannel: ManagedChannel): MovieProtoServiceCoroutineStub {
+        return MovieProtoServiceCoroutineStub(clientChannel)
+    }
+
+    @Bean
+    fun favoriteMovieProtoServiceStub(clientChannel: ManagedChannel): FavoriteMovieProtoServiceCoroutineStub {
+        return FavoriteMovieProtoServiceCoroutineStub(clientChannel)
     }
     
     @Bean

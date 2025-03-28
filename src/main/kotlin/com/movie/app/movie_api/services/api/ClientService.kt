@@ -11,4 +11,5 @@ interface ClientService {
     fun updateClient(clientDTO: ClientDTO): ClientDTO
     fun deleteClient(id: Int)
     fun addFavoriteMovie(clientId: Int, movieId: Int)
+    fun removeFavoriteMovie(clientId: Int, movieId: Int)
 }
